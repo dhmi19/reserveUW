@@ -4,6 +4,7 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 
 import {createFacilityTicketRouter} from './routes/new';
+import {updateFacilityTicketRouter} from './routes/update';
 
 import { errorHandler } from '@dfacilitiesorg/common';
 import { NotFoundError } from '@dfacilitiesorg/common';
@@ -19,6 +20,7 @@ app.use(cookieSession({
 }))
 
 app.use(createFacilityTicketRouter);
+app.use(updateFacilityTicketRouter);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError()

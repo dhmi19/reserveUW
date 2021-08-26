@@ -29,9 +29,16 @@ router.post(
 
         for(var i = 1; i <= quantity; i++){
             // create a new ticket for that facility title (each ticket will have a unique id)
-            const facilityTicket = Facility.build({title, price});
+            const facilityTicket = Facility.build({
+                title, 
+                price, 
+                userId: req.currentUser!.id
+            });
+
             await facilityTicket.save();
+            
             facilityTickets.push(facilityTicket);
+
             //TODO: Publish an event for ticket being published
         }
 

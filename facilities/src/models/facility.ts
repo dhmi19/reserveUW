@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 interface FacilityAttrs{
     title: string;
     price: number;
+    userId: string;
 }
 
 // An interface to define the properties inside the 
@@ -12,6 +13,7 @@ interface FacilityAttrs{
 interface FacilityDoc extends mongoose.Document{
     title: string;
     price: number;
+    userId: string;
 }
 
 // An interface to define the properties inside the 
@@ -30,6 +32,10 @@ const facilitySchema = new mongoose.Schema({
     price: {
         required: true,
         type: Number
+    },
+    userId: {
+        required: true,
+        type: String
     }
 }, {
     toJSON:{
