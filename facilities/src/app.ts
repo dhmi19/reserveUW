@@ -3,6 +3,8 @@ import {json} from 'body-parser';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
 
+import {createFacilityTicketRouter} from './routes/new';
+
 import { errorHandler } from '@dfacilitiesorg/common';
 import { NotFoundError } from '@dfacilitiesorg/common';
 
@@ -16,6 +18,7 @@ app.use(cookieSession({
     secure: true
 }))
 
+app.use(createFacilityTicketRouter);
 
 app.all('*', async (req, res) => {
     throw new NotFoundError()
