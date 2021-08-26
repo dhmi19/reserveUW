@@ -5,6 +5,9 @@ import cookieSession from 'cookie-session';
 
 import {createFacilityTicketRouter} from './routes/new';
 import {updateFacilityTicketRouter} from './routes/update';
+import { deleteFacilityTicketRouter } from './routes/delete';
+import { showOneTicketRouter } from './routes/show-one';
+import { showAllTicketRouter } from './routes/show-all';
 
 import { errorHandler } from '@dfacilitiesorg/common';
 import { NotFoundError } from '@dfacilitiesorg/common';
@@ -21,6 +24,10 @@ app.use(cookieSession({
 
 app.use(createFacilityTicketRouter);
 app.use(updateFacilityTicketRouter);
+app.use(deleteFacilityTicketRouter);
+app.use(showOneTicketRouter);
+app.use(showAllTicketRouter);
+
 
 app.all('*', async (req, res) => {
     throw new NotFoundError()
