@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facilities-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: facilities
+  template:
+    metadata:
+      labels:
+        app: facilities
+    spec:
+      containers:
+        - name: facilities
+          image: d2mittal/facilities
+          env:
+            - name: MONGO_URI
+              value: "mongodb://facilities-mongo-srv:27017/facilities"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: facilities-srv
+spec:
+  selector:
+    app: facilities
+  ports:
+    - name: facilities
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
