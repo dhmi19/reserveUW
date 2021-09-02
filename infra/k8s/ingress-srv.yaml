@@ -18,3 +18,8 @@ spec:
             backend: 
               serviceName: facilities-srv
               servicePort: 3000
+          - path: /api/reservations/?(.*)
+            backend: 
+              serviceName: reservations-srv
+              servicePort: 3000
+          

@@ -2,6 +2,8 @@ import { BadRequestError, currentUser, NotAuthorizedError, requireAuth, validate
 import { body } from 'express-validator';
 import express, {Request, Response} from 'express';
 import { Facility } from '../models/facility';
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -37,7 +39,14 @@ router.put(
         facilityTicket.save();
 
         //TODO: Publish an event that a Facility Ticket was updated
-
+        await new TicketUpdatedPublisher(natsWrapper.client).publish({
+            id: facilityTicket.id,
+            version: facilityTicket.version,
+            title: facilityTicket.title,
+            price: facilityTicket.price,
+            userId: facilityTicket.userId
+        });
+        
         res.send(facilityTicket);
     }    
 )

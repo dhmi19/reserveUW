@@ -2,6 +2,8 @@ import { currentUser, requireAuth, validateRequest } from '@dfacilitiesorg/commo
 import { body } from 'express-validator';
 import express, {Request, Response} from 'express';
 import { Facility } from '../models/facility';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -40,6 +42,13 @@ router.post(
             facilityTickets.push(facilityTicket);
 
             //TODO: Publish an event for ticket being published
+            await new TicketCreatedPublisher(natsWrapper.client).publish({
+                id: facilityTicket.id,
+                title: facilityTicket.title,
+                price: facilityTicket.price,
+                userId: facilityTicket.userId,
+                version: facilityTicket.version
+            });
         }
 
         res.status(201).send(facilityTickets);

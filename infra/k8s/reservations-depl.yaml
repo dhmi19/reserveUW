@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: facilities-depl
+  name: reservations-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: facilities
+      app: reservations
   template:
     metadata:
       labels:
-        app: facilities
+        app: reservations
     spec:
       containers:
-        - name: facilities
-          image: d2mittal/facilities
+        - name: reservations
+          image: d2mittal/reservations
           env:
             - name: MONGO_URI
-              value: "mongodb://facilities-mongo-srv:27017/facilities"
+              value: "mongodb://reservations-mongo-srv:27017/reservations"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: facilities-srv
+  name: reservations-srv
 spec:
   selector:
-    app: facilities
+    app: reservations
   ports:
-    - name: facilities
+    - name: reservations
       protocol: TCP
       port: 3000
       targetPort: 3000

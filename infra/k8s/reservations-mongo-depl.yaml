@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservations-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservations-mongo
+  template:
+    metadata: 
+      labels:
+        app: reservations-mongo
+    spec:
+      containers:
+        - name: reservations-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reservations-mongo-srv
+spec:
+  selector:
+    app: reservations-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
