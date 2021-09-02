@@ -8,7 +8,7 @@ interface Event {
 
 export abstract class Listener<T extends Event> {
     abstract queueGroupName : string;
-    abstract subject: T['data'];
+    abstract subject: T['subject'];
     abstract onMessage(data: T["data"], msg: Message) : void; //call this method when message received
 
     private client: Stan;
